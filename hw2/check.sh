@@ -14,9 +14,11 @@ run-sanitize() {
 	then
 		echo -e "${RED}Fail on sanitize${NC}"
 		cat sanitize
+		rm sanitize
 		exit 1
 	else
 		echo -e "${GREEN}Sanitize check OK${NC}"
+		rm sanitize
 	fi	
 
 }
@@ -24,15 +26,16 @@ run-sanitize() {
 check-format() {
 
 	touch format
-	#clang-format -i --style=Google ${name}.cpp 2> format 
 	clang-format -dry-run --style=Google ${name}.cpp 2> format 
 	if [ -s format ] 
 	then
 		echo -e "${RED}Fail on code-style check${NC}"
 		cat format
+		rm format
 		exit 1
 	else
 		echo -e "${GREEN}Code-style check OK${NC}"
+		rm format
 	fi
 
 }
@@ -51,7 +54,7 @@ fast_run() {
 	echo -e "${GREEN}Benchmark time $sec.${ms}s${NC}"
 
 }
-
+	
 
 echo -e "${GREEN}Check ${name}.cpp...${NC}"
 
